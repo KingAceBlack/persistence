@@ -3,6 +3,7 @@ import { devtools } from 'frog/dev'
 import { serveStatic } from 'frog/serve-static'
 // import { neynar } from 'frog/hubs'
 import { handle } from 'frog/vercel'
+import type { Address } from 'viem'
 import { abi } from '../abi.js'
 
 // Uncomment to use Edge Runtime.
