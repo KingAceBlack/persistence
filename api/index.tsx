@@ -3,11 +3,31 @@ import { devtools } from 'frog/dev'
 import { serveStatic } from 'frog/serve-static'
 // import { neynar } from 'frog/hubs'
 import { handle } from 'frog/vercel'
+import { abi } from '../abi.js'
 
 // Uncomment to use Edge Runtime.
 // export const config = {
 //   runtime: 'edge',
 // }
+
+const arbitrumChain = {
+  id: 421614,
+  name: 'Arbitrum Sepolia',
+  network: 'arbitrum',
+  nativeCurrency: {
+    name: 'Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: 'https://endpoints.omniatech.io/v1/arbitrum/sepolia/public',
+  },
+  blockExplorers: {
+    etherscan: { name: 'Arbiscan', url: 'https://sepolia.arbiscan.io' },
+    default: { name: 'Arbiscan', url: 'https://sepolia.arbiscan.io' },
+  },
+  testnet: true,
+};
 
 export const app = new Frog({
   assetsPath: '/',
