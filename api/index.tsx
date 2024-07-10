@@ -278,8 +278,34 @@ app.frame('/', (c) => {
   })
 })
 
+app.transaction('/mint', (c) => {
+  const address = c.address as Address;
 
-app.transaction('/mint', async (c, next) => {
+  console.log('address', address);
+  //console.log('Button', Button.Transaction key);
+
+  return c.contract({
+    abi,
+    functionName: 'claim',
+    args: [
+      address, // _receiver
+      1n, // _quantity
+      '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', // _currency
+      0n, // _pricePerToken
+      {
+        proof: [], // _allowlistProof.proof
+        quantityLimitPerWallet: 100n, // _allowlistProof.quantityLimitPerWallet
+        pricePerToken: 0n, // _allowlistProof.pricePerToken
+        currency: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', // _allowlistProof.currency
+      }, // _allowlistProof
+      '0x', // _data
+    ],
+    chainId: `eip155:${arbitrumChain.id}`,
+    to: '0x7C5B213CAaf6ebbcB6F1B24a193307261B1F6e69',
+  });
+});
+
+app.transaction('/mint2', async (c, next) => {
   await next();
   const txParams = await c.res.json();
   txParams.attribution = false;
