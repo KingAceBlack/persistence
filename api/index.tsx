@@ -13,24 +13,7 @@ import { abi } from '../abi.js'
 
 
 
-const arbitrumChain = {
-  id: 421614,
-  name: 'Arbitrum Sepolia',
-  network: 'arbitrum',
-  nativeCurrency: {
-    name: 'Ether',
-    symbol: 'ETH',
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: 'https://endpoints.omniatech.io/v1/arbitrum/sepolia/public',
-  },
-  blockExplorers: {
-    etherscan: { name: 'Arbiscan', url: 'https://sepolia.arbiscan.io' },
-    default: { name: 'Arbiscan', url: 'https://sepolia.arbiscan.io' },
-  },
-  testnet: true,
-};
+
 
 export const app = new Frog({
   assetsPath: '/',
