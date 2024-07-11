@@ -27,7 +27,7 @@ app.frame('/', (c) => {
   return c.res({
     action: '/finish',
     image: (
-      <div style={{ color: 'white', display: 'flex', fontSize: 60 }}>
+      <div style={{ color: 'green', display: 'flex', fontSize: 60 }}>
         Perform a transaction
       </div>
     ),
