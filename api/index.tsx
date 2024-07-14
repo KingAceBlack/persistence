@@ -12,7 +12,21 @@ import { abi } from '../abi.js'
 // }
 
 
-
+let player = {
+  name: 'player',
+  life: 99,
+  timegated: 1,
+  forgednumber: 0,
+  timeremaining: "9000",
+  specials: 3,
+  tinkererbombactive: 0,
+  hasGem: 0,
+  metStranger: 0,
+  death: 0,
+  finalDecision: 0,
+  framesLoaded: 0, 
+  enemiesKilled: 0,
+};
 
 
 export const app = new Frog({
@@ -23,72 +37,341 @@ export const app = new Frog({
 })
 
 
+
 app.frame('/', (c) => {
-  return c.res({
-    action: '/finish',
-    image: (
-      <div style={{ color: 'green', display: 'flex', fontSize: 60 }}>
-        Perform a transaction
-      </div>
-    ),
-    intents: [
-      <Button.Transaction target="/mint">Mint</Button.Transaction>,
-    ]
-  })
-})
+    let image;
+    let intents;
+    
 
 
+        image = 'https://violet-worldwide-sole-637.mypinata.cloud/ipfs/QmcLTne4zVtLRzjkeBDRmsQ2sQj5dadxAwfuYUH6XCBs4e';
+        intents = [
+           
+           <Button action="/page1">Continue</Button>,
 
-app.transaction('/mint', async (c, next) => {
-  await next();
-  const txParams = await c.res.json();
-  txParams.attribution = false;
-  console.log(txParams);
-  c.res = new Response(JSON.stringify(txParams), {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-},
-async (c) => {
-  const address = c.address;
+        ];
 
-  // console.log('address', address);
-  //console.log('Button', Button.Transaction key);
 
-  return c.contract({
-    abi,
-    functionName: 'claim',
-    args: [
-      address as `0x${string}`, // _receiver address
-      0n, // _tokenId as uint256
-      1n, // _quantity as uint256
-      '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', // _currency address
-      0n, // _pricePerToken as uint256
-      {
-        proof: [], // _allowlistProof.proof as bytes32[]
-        quantityLimitPerWallet: 100n, // _allowlistProof.quantityLimitPerWallet as uint256
-        pricePerToken: 0n, // _allowlistProof.pricePerToken as uint256
-        currency: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE' // _allowlistProof.currency address
-      },
-      '0x' // _data as bytes
-    ],
-    chainId: `eip155:421614`,
-    to: '0x7C5B213CAaf6ebbcB6F1B24a193307261B1F6e69',
-  });
+    return c.res({
+        image: image,
+        intents: intents
+    });
 });
 
 
-app.frame('/finish', (c) => {
-  const { transactionId } = c
-  return c.res({
-    image: (
-      <div style={{ color: 'white', display: 'flex', fontSize: 60 }}>
-        Transaction ID: {transactionId}
-      </div>
-    )
-  })
-})
+
+
+app.frame('/page1', (c) => {
+    let image;
+    let intents;
+    player.framesLoaded += 1;
+
+        image = (
+            <div
+                style={{
+                    alignItems: 'center',
+                    backgroundImage: 'url(https://violet-worldwide-sole-637.mypinata.cloud/ipfs/QmcLTne4zVtLRzjkeBDRmsQ2sQj5dadxAwfuYUH6XCBs4e)',
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexWrap: 'nowrap',
+                    height: '100%',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    width: '100%',
+                    color: '#E1A411',
+                    fontStyle: 'normal',
+                    letterSpacing: '-0.025em',
+                    lineHeight: 1.4,
+                    marginTop: 0,
+                    padding: '0 120px',
+                    whiteSpace: 'pre-wrap',
+                }}
+            >
+               <p style={{ fontSize : '50px', margin : '0', marginTop : '-200', color: 'red'  }}> {`Health remaining : ${player.life}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-150', color: 'red'  }}> {`Enemies Defeated : ${player.enemiesKilled}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-50', color: 'red'  }}> {`Deaths : ${player.death}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+150', color: 'red'  }}> {`Total Frames Loaded : ${player.framesLoaded}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+250', color: 'red'  }}> {`End Choice : ${player.finalDecision}`} </p>
+    
+              
+            </div>
+        );
+        intents = [
+           
+             <Button action="/page2">Continue</Button>,
+        ];
+
+
+    return c.res({
+       
+        image: image,
+        intents: intents
+    });
+});
+
+app.frame('/page2', (c) => {
+    let image;
+    let intents;
+    player.framesLoaded += 1;
+
+        image = (
+            <div
+                style={{
+                    alignItems: 'center',
+                    backgroundImage: 'url(https://violet-worldwide-sole-637.mypinata.cloud/ipfs/QmcLTne4zVtLRzjkeBDRmsQ2sQj5dadxAwfuYUH6XCBs4e)',
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexWrap: 'nowrap',
+                    height: '100%',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    width: '100%',
+                    color: '#E1A411',
+                    fontStyle: 'normal',
+                    letterSpacing: '-0.025em',
+                    lineHeight: 1.4,
+                    marginTop: 0,
+                    padding: '0 120px',
+                    whiteSpace: 'pre-wrap',
+                }}
+            >
+               <p style={{ fontSize : '50px', margin : '0', marginTop : '-200', color: 'red'  }}> {`Health remaining : ${player.life}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-150', color: 'red'  }}> {`Enemies Defeated : ${player.enemiesKilled}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-50', color: 'red'  }}> {`Deaths : ${player.death}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+150', color: 'red'  }}> {`Total Frames Loaded : ${player.framesLoaded}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+250', color: 'red'  }}> {`End Choice : ${player.finalDecision}`} </p>
+    
+              
+            </div>
+        );
+        intents = [
+           
+             <Button action="/page3">Continue</Button>,
+        ];
+
+
+    return c.res({
+       
+        image: image,
+        intents: intents
+    });
+});
+
+app.frame('/page3', (c) => {
+    let image;
+    let intents;
+    player.framesLoaded += 1;
+
+        image = (
+            <div
+                style={{
+                    alignItems: 'center',
+                    backgroundImage: 'url(https://violet-worldwide-sole-637.mypinata.cloud/ipfs/QmcLTne4zVtLRzjkeBDRmsQ2sQj5dadxAwfuYUH6XCBs4e)',
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexWrap: 'nowrap',
+                    height: '100%',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    width: '100%',
+                    color: '#E1A411',
+                    fontStyle: 'normal',
+                    letterSpacing: '-0.025em',
+                    lineHeight: 1.4,
+                    marginTop: 0,
+                    padding: '0 120px',
+                    whiteSpace: 'pre-wrap',
+                }}
+            >
+               <p style={{ fontSize : '50px', margin : '0', marginTop : '-200', color: 'red'  }}> {`Health remaining : ${player.life}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-150', color: 'red'  }}> {`Enemies Defeated : ${player.enemiesKilled}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-50', color: 'red'  }}> {`Deaths : ${player.death}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+150', color: 'red'  }}> {`Total Frames Loaded : ${player.framesLoaded}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+250', color: 'red'  }}> {`End Choice : ${player.finalDecision}`} </p>
+    
+              
+            </div>
+        );
+        intents = [
+           
+             <Button action="/page4">Continue</Button>,
+        ];
+
+
+    return c.res({
+       
+        image: image,
+        intents: intents
+    });
+});
+
+
+app.frame('/page4', (c) => {
+    let image;
+    let intents;
+    player.framesLoaded += 1;
+
+        image = (
+            <div
+                style={{
+                    alignItems: 'center',
+                    backgroundImage: 'url(https://violet-worldwide-sole-637.mypinata.cloud/ipfs/QmcLTne4zVtLRzjkeBDRmsQ2sQj5dadxAwfuYUH6XCBs4e)',
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexWrap: 'nowrap',
+                    height: '100%',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    width: '100%',
+                    color: '#E1A411',
+                    fontStyle: 'normal',
+                    letterSpacing: '-0.025em',
+                    lineHeight: 1.4,
+                    marginTop: 0,
+                    padding: '0 120px',
+                    whiteSpace: 'pre-wrap',
+                }}
+            >
+               <p style={{ fontSize : '50px', margin : '0', marginTop : '-200', color: 'red'  }}> {`Health remaining : ${player.life}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-150', color: 'red'  }}> {`Enemies Defeated : ${player.enemiesKilled}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-50', color: 'red'  }}> {`Deaths : ${player.death}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+150', color: 'red'  }}> {`Total Frames Loaded : ${player.framesLoaded}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+250', color: 'red'  }}> {`End Choice : ${player.finalDecision}`} </p>
+    
+              
+            </div>
+        );
+        intents = [
+           
+             <Button action="/page5">Continue</Button>,
+        ];
+
+
+    return c.res({
+       
+        image: image,
+        intents: intents
+    });
+});
+
+
+
+
+app.frame('/page5', (c) => {
+    let image;
+    let intents;
+    player.framesLoaded += 1;
+
+        image = (
+            <div
+                style={{
+                    alignItems: 'center',
+                    backgroundImage: 'url(https://violet-worldwide-sole-637.mypinata.cloud/ipfs/QmcLTne4zVtLRzjkeBDRmsQ2sQj5dadxAwfuYUH6XCBs4e)',
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexWrap: 'nowrap',
+                    height: '100%',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    width: '100%',
+                    color: '#E1A411',
+                    fontStyle: 'normal',
+                    letterSpacing: '-0.025em',
+                    lineHeight: 1.4,
+                    marginTop: 0,
+                    padding: '0 120px',
+                    whiteSpace: 'pre-wrap',
+                }}
+            >
+               <p style={{ fontSize : '50px', margin : '0', marginTop : '-200', color: 'red'  }}> {`Health remaining : ${player.life}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-150', color: 'red'  }}> {`Enemies Defeated : ${player.enemiesKilled}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-50', color: 'red'  }}> {`Deaths : ${player.death}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+150', color: 'red'  }}> {`Total Frames Loaded : ${player.framesLoaded}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+250', color: 'red'  }}> {`End Choice : ${player.finalDecision}`} </p>
+    
+              
+            </div>
+        );
+        intents = [
+           
+             <Button action="/page6">Continue</Button>,
+        ];
+
+
+    return c.res({
+       
+        image: image,
+        intents: intents
+    });
+});
+
+
+
+app.frame('/page6', (c) => {
+    let image;
+    let intents;
+    player.framesLoaded += 1;
+
+        image = (
+            <div
+                style={{
+                    alignItems: 'center',
+                    backgroundImage: 'url(https://violet-worldwide-sole-637.mypinata.cloud/ipfs/QmcLTne4zVtLRzjkeBDRmsQ2sQj5dadxAwfuYUH6XCBs4e)',
+                    backgroundSize: '100% 100%',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexWrap: 'nowrap',
+                    height: '100%',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    width: '100%',
+                    color: '#E1A411',
+                    fontStyle: 'normal',
+                    letterSpacing: '-0.025em',
+                    lineHeight: 1.4,
+                    marginTop: 0,
+                    padding: '0 120px',
+                    whiteSpace: 'pre-wrap',
+                }}
+            >
+               <p style={{ fontSize : '50px', margin : '0', marginTop : '-200', color: 'red'  }}> {`Health remaining : ${player.life}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-150', color: 'red'  }}> {`Enemies Defeated : ${player.enemiesKilled}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '-50', color: 'red'  }}> {`Deaths : ${player.death}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+150', color: 'red'  }}> {`Total Frames Loaded : ${player.framesLoaded}`} </p>
+               <p style={{ fontSize : '50px', margin : '0', marginCenter : '+250', color: 'red'  }}> {`End Choice : ${player.finalDecision}`} </p>
+    
+              
+            </div>
+        );
+        intents = [
+           
+             <Button action="/page1">Continue</Button>,
+        ];
+
+
+    return c.res({
+       
+        image: image,
+        intents: intents
+    });
+});
 
 
 
