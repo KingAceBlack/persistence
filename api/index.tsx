@@ -49,7 +49,7 @@ app.frame('/', (c) => {
     let intents;
     
 
-
+        let updatedCounter = incrementCounter();
         image = 'https://violet-worldwide-sole-637.mypinata.cloud/ipfs/QmcLTne4zVtLRzjkeBDRmsQ2sQj5dadxAwfuYUH6XCBs4e';
         intents = [
            
@@ -71,6 +71,7 @@ app.frame('/page1', (c) => {
     let image;
     let intents;
     player.framesLoaded += 1;
+    let updatedCounter = incrementCounter();
 
         image = (
             <div
@@ -122,6 +123,7 @@ app.frame('/page2', (c) => {
     let image;
     let intents;
     player.framesLoaded += 1;
+    let updatedCounter = incrementCounter();
 
         image = (
             <div
@@ -173,6 +175,7 @@ app.frame('/page3', (c) => {
     let image;
     let intents;
     player.framesLoaded += 1;
+    let updatedCounter = incrementCounter();
 
         image = (
             <div
@@ -225,6 +228,7 @@ app.frame('/page4', (c) => {
     let image;
     let intents;
     player.framesLoaded += 1;
+    let updatedCounter = incrementCounter();
 
         image = (
             <div
@@ -279,6 +283,7 @@ app.frame('/page5', (c) => {
     let image;
     let intents;
     player.framesLoaded += 1;
+    let updatedCounter = incrementCounter();
 
         image = (
             <div
@@ -332,6 +337,7 @@ app.frame('/page6', (c) => {
     let image;
     let intents;
     player.framesLoaded += 1;
+    let updatedCounter = incrementCounter();
 
         image = (
             <div
