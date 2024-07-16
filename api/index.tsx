@@ -70,7 +70,7 @@ let enemy2 = {
 
 let enemy3 = {
   name: 'enemy3',
-  life: 70, 
+  life: 75, 
 };
 
 let enemy4 = {
@@ -88,7 +88,7 @@ let expirationTimeRem = new Date(Date.now() + 60000);
 
 
 let progressMarker = {
-  previousFrame: '/page6',
+  previousFrame: '/page1',
   backButton:1,
   inventorySlot1: 0,
   inventorySlot2: 0,
@@ -105,7 +105,7 @@ type DeathtFrame = string;
 type TimerWatch = number;
 type FinalDecision = number;
 let farcasterid: FarcasterID = '1';
-let currentframe: CurrentFrame = 'page6';
+let currentframe: CurrentFrame = 'startframe';
 let deathFrame: DeathtFrame = '/page17';
 let timerWatch: TimerWatch = 1717262784622;
 let finalDecision: FinalDecision = 0
@@ -243,6 +243,13 @@ app.frame('/', (c) => {
     let intents;
 
     player.framesLoaded += 1;
+
+    player = { ...player, life: 100 };
+    player = { ...player, hasGem: 0 };
+    player = { ...player, metStranger: 0 };
+    player = { ...player, framesLoaded: 0 };
+    player = { ...player, specials: 3 };
+    player = { ...player, enemiesKilled: 0 };
     
 
 
@@ -261,29 +268,75 @@ app.frame('/', (c) => {
     });
 });
 
-app.frame('/firstframe', (c) => {
+
+app.frame('/firstframe', async (c) => {
     let image;
     let intents;
 
-    player = { ...player, life: 100 };
-    player = { ...player, hasGem: 0 };
-    player = { ...player, metStranger: 0 };
-    player = { ...player, framesLoaded: 0 };
-    player = { ...player, specials: 3 };
-    player = { ...player, enemiesKilled: 0 };
 
 
+        const { buttonValue, inputText, status, frameData, verified } = c;
 
-    player.framesLoaded += 1;
+        player.framesLoaded += 1;
+        const { fid } = frameData || {};
+        farcasterid = fid !== undefined ? String(fid) : farcasterid;// Use existing farcasterid if fid is undefined
+        console.log('real id is:', farcasterid);
+        console.log('frames loaded is :', player.framesLoaded);
+
+        try {
+          const data: DataItem[] = await fetchData();
+          const firstItem = data[0];
+          
+
+          const item = data.find((item: DataItem) => item.fid === farcasterid);
+
+          if (item) {
+            // Update Health with the score of the found item
+            //let Health = item.health;
+            //console.log('Farcaster health:', Health);
+
+            let lastFrame = item.lastknownframe;
+            let lastdeathpos = item.deathpos;
+            timerWatch = item.stopWatch;
+            progressMarker = { ...progressMarker, previousFrame: lastFrame };
+            progressMarker = { ...progressMarker, deathFrame: lastdeathpos };
+
+            image = 'https://violet-worldwide-sole-637.mypinata.cloud/ipfs/Qmd9qKBwAMbXGXsqQMvfsYw7qP8FvJDLqva3wyywFG2Vd2';
+            intents = [
+               
+               <Button action={`/${progressMarker.previousFrame}`}>Continue</Button>,
+               <Button.Link href="https://paragraph.xyz/@oexcess.eth/preview/oLuj50fHUK6FeqFePlqd">Guide</Button.Link>,
+            ];
+
+
+          } else {
+            console.log('Item not found for the specified farcasterid');
+            await addData(farcasterid, currentframe);
+            console.log('Data added successfully');
+            image = 'https://violet-worldwide-sole-637.mypinata.cloud/ipfs/Qmd9qKBwAMbXGXsqQMvfsYw7qP8FvJDLqva3wyywFG2Vd2';
+            intents = [
+               
+               <Button action="/startframe">Start</Button>,
+               <Button.Link href="https://paragraph.xyz/@oexcess.eth/preview/oLuj50fHUK6FeqFePlqd">Guide</Button.Link>,
+            ];
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            console.error('Error fetching data:', error.message);
+          } else {
+            console.error('Unexpected error:', error);
+          }
+        }
+
     
 
 
-        image = 'https://violet-worldwide-sole-637.mypinata.cloud/ipfs/Qmd9qKBwAMbXGXsqQMvfsYw7qP8FvJDLqva3wyywFG2Vd2';
+        /*image = 'https://violet-worldwide-sole-637.mypinata.cloud/ipfs/Qmd9qKBwAMbXGXsqQMvfsYw7qP8FvJDLqva3wyywFG2Vd2';
         intents = [
            
            <Button action="/startframe">Continue</Button>,
            <Button.Link href="https://paragraph.xyz/@oexcess.eth/preview/oLuj50fHUK6FeqFePlqd">Guide</Button.Link>,
-        ];
+        ];*/
 
 
     return c.res({
@@ -292,6 +345,15 @@ app.frame('/firstframe', (c) => {
         intents: intents
     });
 });
+
+
+
+
+
+
+
+
+
 
 
 app.frame('/startframe', (c) => {
@@ -342,7 +404,7 @@ app.frame('/looponce', (c) => {
 });
 
 
-app.frame('/page1', async (c) => {
+/*app.frame('/page1', async (c) => {
   let image;
   let intents;
   const { buttonValue, inputText, status, frameData, verified } = c;
@@ -393,6 +455,31 @@ app.frame('/page1', async (c) => {
       //<Button action="/page6">Continue</Button>,
     ],
   });
+});*/
+
+
+
+
+app.frame('/page1', (c) => {
+    let image;
+    let intents;
+    player.framesLoaded += 1;
+
+
+
+
+        image = 'https://violet-worldwide-sole-637.mypinata.cloud/ipfs/QmbbVUFjEpD6ScZtr398ko33aBP5UX99vXMBYtMNcGMiji';
+        intents = [
+           
+           <Button action="/page6">Continue</Button>,
+        ];
+
+
+    return c.res({
+       
+        image: image,
+        intents: intents
+    });
 });
 
 
@@ -4902,7 +4989,7 @@ app.frame('/counterResult2', (c) => {
 
           intents = [
              
-             <Button action="/narrative7">Continue</Button>,
+             <Button action="/narrative7">Open Door</Button>,
              <Button action="/showPlayerStatus">Status</Button>,
 
              
@@ -5683,7 +5770,7 @@ app.frame('/checktime', (c) => {
         } else {
 
           player.timegated -= 1
-          player.life += 100
+          player = { ...player, life: 100 };
           
           image = (
                   <div
@@ -5995,7 +6082,7 @@ app.frame('/finalDecision2', (c) => {
     let intents;
     player.framesLoaded += 1;
     
-    currentframe = "page6";
+    currentframe = "startframe";
         updateData(farcasterid, currentframe, deathFrame, timerWatch)
         .then(() => {
           console.log('Data updated successfully');
