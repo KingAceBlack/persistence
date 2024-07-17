@@ -54,7 +54,7 @@ let player = {
   metStranger: 0,
   death: 0,
   finalDecision: 0,
-  framesLoaded: 0, 
+  //framesLoaded: 0, 
   enemiesKilled: 0,
 };
 
